@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/compose-spec/compose-go/dotenv"
 	"github.com/shono-io/go-shono/shono"
@@ -35,6 +34,7 @@ func main() {
 	}
 
 	sc, err := shono.NewClient(
+		fmt.Sprintf("agent-%s", os.Getenv(ShonoOrgEnv)),
 		shono.WithCredentials(os.Getenv(ShonoKeyEnv), os.Getenv(ShonoSecretEnv)),
 		shono.WithOrg(os.Getenv(ShonoOrgEnv)),
 		shono.WithUrl(os.Getenv(ShonoUrlEnv)),
@@ -44,9 +44,5 @@ func main() {
 	}
 	defer sc.Close()
 
-	if err := sc.Kafka().Ping(context.Background()); err != nil {
-		panic(fmt.Errorf("unable to connect to kafka: %w", err))
-	}
-
-	fmt.Println("connected to kafka")
+	fmt.Println("connected to the shono stream")
 }
