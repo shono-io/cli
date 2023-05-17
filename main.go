@@ -3,9 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/compose-spec/compose-go/dotenv"
+	go_shono "github.com/shono-io/go-shono"
 	"github.com/shono-io/go-shono/shono"
+	"github.com/shono-io/shono-agent/reaktors"
 	"github.com/sirupsen/logrus"
 	"os"
+	"sync"
 )
 
 var (
@@ -44,5 +47,22 @@ func main() {
 	}
 	defer sc.Close()
 
+	b, err := sc.Backbone()
+	if err != nil {
+		logrus.Panicf("failed to get backbone: %v", err)
+	}
+
+	r := go_shono.NewRouter()
+	reaktors.RegisterScopeRoutes(r, b)
+
+	if err := sc.Listen(r); err != nil {
+		logrus.Panicf("error listening to shono stream: %v", err)
+	}
+
 	fmt.Println("connected to the shono stream")
+
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+
+	wg.Wait()
 }
