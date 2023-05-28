@@ -3,8 +3,7 @@ package agent
 import (
 	"crypto/tls"
 	"github.com/benthosdev/benthos/v4/public/service"
-	"github.com/shono-io/go-shono/kafka"
-	"github.com/shono-io/go-shono/shono"
+	"github.com/shono-io/go-shono/backbone"
 	"github.com/twmb/franz-go/pkg/kgo"
 	"github.com/twmb/franz-go/pkg/sasl/plain"
 	"net"
@@ -118,12 +117,12 @@ type Agent struct {
 	backboneOpts []kgo.Opt
 	shonoOpts    []kgo.Opt
 
-	bb shono.Backbone
+	bb backbone.Backbone
 }
 
 func (a *Agent) Connect() error {
 	// -- initialize the backbone
-	a.bb = kafka.NewBackbone(a.id, a.backboneOpts...)
+	a.bb = backbone.NewBackbone(a.id, a.backboneOpts...)
 
 	return nil
 }
