@@ -1,15 +1,14 @@
-module github.com/shono-io/shono-agent
+module github.com/shono-io/cli
 
 go 1.20
 
-replace github.com/shono-io/go-shono v0.0.0 => ../go-shono
+replace github.com/shono-io/shono v0.0.0 => ../shono
 
 require (
 	github.com/benthosdev/benthos/v4 v4.15.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
-	github.com/twmb/franz-go v1.13.0
-	github.com/shono-io/go-shono v0.0.0
+	github.com/shono-io/shono v0.0.0
 )
 
 require (
