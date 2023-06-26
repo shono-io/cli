@@ -8,6 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"os"
 
+	_ "github.com/benthosdev/benthos/v4/public/components/all"
 	"github.com/spf13/cobra"
 )
 
