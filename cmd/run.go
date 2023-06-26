@@ -5,9 +5,6 @@ import (
 	"github.com/shono-io/shono/local"
 	"github.com/shono-io/shono/runtime"
 	"github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v3"
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -17,19 +14,22 @@ var runCmd = &cobra.Command{
 	Short: "Run an artifact",
 	Long:  `Retrieve and run the given artifact`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var cfg runtime.RunConfig
-		c, err := cmd.Flags().GetString("config")
+		appId, err := cmd.Flags().GetString("id")
 		if err != nil {
 			fmt.Println(err)
 		}
-		if c != "" {
-			b, err := os.ReadFile(c)
-			if err != nil {
-				fmt.Println(fmt.Sprintf("failed to read config file %q: %v", c, err))
-			}
-			if err := yaml.Unmarshal(b, &cfg); err != nil {
-				fmt.Println(fmt.Sprintf("failed to unmarshal config file %q: %v", c, err))
-			}
+
+		storageId, _ := cmd.Flags().GetString("storage")
+		debug, _ := cmd.Flags().GetBool("debug")
+
+		logLevel := "INFO"
+		if debug {
+			logLevel = "DEBUG"
+		}
+
+		systems, err := runtime.LoadSystems()
+		if err != nil {
+			fmt.Println(fmt.Sprintf("failed to load systems: %v", err))
 		}
 
 		u, err := cmd.Flags().GetString("artifact")
@@ -43,7 +43,12 @@ var runCmd = &cobra.Command{
 			return
 		}
 
-		if err := runtime.RunArtifact(cfg, artifact); err != nil {
+		cfg := runtime.RunConfig{
+			ApplicationId:   appId,
+			StorageSystemId: storageId,
+		}
+
+		if err := runtime.RunArtifact(cfg, systems, artifact, logLevel); err != nil {
 			logrus.Errorf("failed to run artifact: %v", err)
 		}
 	},
@@ -52,5 +57,7 @@ var runCmd = &cobra.Command{
 func init() {
 	artifactCmd.AddCommand(runCmd)
 	runCmd.Flags().StringP("artifact", "a", "", "the artifact to run")
-	runCmd.Flags().StringP("config", "c", "", "the path to the runtime configuration file")
+	runCmd.Flags().StringP("id", "i", "", "the application id")
+	runCmd.Flags().StringP("storage", "s", "", "the storage system id, only applicable if the artifact is a concept artifact")
+	runCmd.Flags().BoolP("debug", "d", false, "print verbose debug information")
 }

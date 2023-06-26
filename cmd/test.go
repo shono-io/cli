@@ -44,7 +44,7 @@ var testCmd = &cobra.Command{
 			return
 		}
 
-		if err := runtime.TestArtifact(cfg, artifact, "TRACE"); err != nil {
+		if err := runtime.TestArtifact(artifact, "TRACE"); err != nil {
 			logrus.Errorf("failed to run artifact: %v", err)
 		}
 	},
