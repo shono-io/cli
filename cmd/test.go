@@ -15,8 +15,12 @@ import (
 // testCmd represents the test command
 var testCmd = &cobra.Command{
 	Use:   "test",
-	Short: "A brief description of your command",
-	Long:  `Retrieve and test the given artifact`,
+	Short: "Run the tests for the given artifact",
+	Long: `Every artifact has some logic associated with it. 
+
+If together with the logic, also tests are provided, this command will run them.
+
+Please keep in mind only tests you have written yourself will be run.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var cfg runtime.RunConfig
 		c, err := cmd.Flags().GetString("config")

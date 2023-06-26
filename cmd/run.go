@@ -12,7 +12,15 @@ import (
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Run an artifact",
-	Long:  `Retrieve and run the given artifact`,
+	Long: `Start a shono-enhanced benthos instance to start processing data.
+
+Most likely, additional system information (like login credentials and connection urls) 
+are required to run the artifact. This command will look for those in the following locations:
+- ./systems.yaml
+- ~/.shono/systems.yaml
+
+Each location will be checked in order and the first one that is found will be used.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		appId, err := cmd.Flags().GetString("id")
 		if err != nil {
