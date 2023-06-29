@@ -1,0 +1,63 @@
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Release
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: true
+
+  cli:
+    name: release the cli
+    needs: release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        osarch:
+          - os: linux
+            arch: amd64
+          - os: darwin
+            arch: amd64
+          - os: windows
+            arch: amd64
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.19
+        id: go
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build the cli
+        run: |
+          cd ${{ github.workspace }}
+          CGO_ENABLED=0 GOOS=${{ matrix.osarch.os }} GOARCH=${{ matrix.osarch.arch }} go build -a -tags netgo -ldflags '-w' -o ./shono-cli-${{ matrix.osarch.os}}-${{ matrix.osarch.arch}} .
+
+      - name: Upload CLI
+        id: upload-cli
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ github.workspace }}/shono-cli-${{ matrix.osarch.os}}-${{ matrix.osarch.arch}}
+          asset_name: shono-cli-${{ matrix.osarch.os}}-${{ matrix.osarch.arch}}
+          asset_content_type: application/octet-stream
