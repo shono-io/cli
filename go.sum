@@ -860,6 +860,8 @@ github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 github.com/segmentio/parquet-go v0.0.0-20220830163417-b03c0471ebb0 h1:iiEwAfnwsfZ53dg/KCeZqQaalWJOhRpaIXvxAIivXLE=
 github.com/segmentio/parquet-go v0.0.0-20220830163417-b03c0471ebb0/go.mod h1:PxYdAI6cGd+s1j4hZDQbz3VFgobF5fDA0weLeNWKTE4=
+github.com/shono-io/shono v0.1.0 h1:uKVhkPbB40i6MGS7FbmJPGzxm1fIdyPAiAtrUD7C3oQ=
+github.com/shono-io/shono v0.1.0/go.mod h1:1cBnV6NkaHnoHliwpc/FvvTqRxdQMA80R/UhtRqOPwI=
 github.com/shopspring/decimal v1.3.1 h1:2Usl1nmF/WZucqkFZhnfFYxxxu8LG21F6nPQBE5gKV8=
 github.com/shopspring/decimal v1.3.1/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=

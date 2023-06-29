@@ -2,11 +2,9 @@ module github.com/shono-io/cli
 
 go 1.20
 
-replace github.com/shono-io/shono v0.0.0 => ../shono
-
 require (
 	github.com/benthosdev/benthos/v4 v4.15.0
-	github.com/shono-io/shono v0.0.0
+	github.com/shono-io/shono v0.1.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
