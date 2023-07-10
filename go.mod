@@ -2,6 +2,10 @@ module github.com/shono-io/cli
 
 go 1.20
 
+replace (
+	github.com/shono-io/shono v0.1.0 => ../shono
+)
+
 require (
 	github.com/benthosdev/benthos/v4 v4.15.0
 	github.com/shono-io/shono v0.1.0

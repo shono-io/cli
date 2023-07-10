@@ -5,7 +5,7 @@ import (
 )
 
 // artifactCmd represents the artifact command
-var artifactCmd = &cobra.Command{
+var ArtifactCmd = &cobra.Command{
 	Use:   "artifact",
 	Short: "Perform action against artifacts",
 	Long: `Artifacts are executable units of code that can be run by shono.
@@ -19,5 +19,5 @@ The contain logic and optionally tests.
 }
 
 func init() {
-	rootCmd.AddCommand(artifactCmd)
+	rootCmd.AddCommand(ArtifactCmd)
 }

@@ -14,13 +14,14 @@ import (
 
 // testCmd represents the test command
 var testCmd = &cobra.Command{
-	Use:   "test",
+	Use:   "test [artifact]",
 	Short: "Run the tests for the given artifact",
 	Long: `Every artifact has some logic associated with it. 
 
 If together with the logic, also tests are provided, this command will run them.
 
 Please keep in mind only tests you have written yourself will be run.`,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		var cfg runtime.RunConfig
 		c, err := cmd.Flags().GetString("config")
@@ -37,12 +38,7 @@ Please keep in mind only tests you have written yourself will be run.`,
 			}
 		}
 
-		u, err := cmd.Flags().GetString("artifact")
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		artifact, err := local.LoadArtifact(u)
+		artifact, err := local.LoadArtifact(args[0])
 		if err != nil {
 			logrus.Errorf("failed to load artifact: %v", err)
 			return
@@ -55,7 +51,7 @@ Please keep in mind only tests you have written yourself will be run.`,
 }
 
 func init() {
-	artifactCmd.AddCommand(testCmd)
+	ArtifactCmd.AddCommand(testCmd)
 	testCmd.Flags().StringP("artifact", "a", "", "the artifact to run")
 	testCmd.Flags().StringP("config", "c", "", "the path to the runtime configuration file")
 }
