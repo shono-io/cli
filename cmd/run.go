@@ -10,7 +10,7 @@ import (
 
 // runCmd represents the run command
 var runCmd = &cobra.Command{
-	Use:   "run",
+	Use:   "run [artifact]",
 	Short: "Run an artifact",
 	Long: `Start a shono-enhanced benthos instance to start processing data.
 
@@ -21,6 +21,7 @@ are required to run the artifact. This command will look for those in the follow
 
 Each location will be checked in order and the first one that is found will be used.
 `,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		appId, err := cmd.Flags().GetString("id")
 		if err != nil {
@@ -40,12 +41,7 @@ Each location will be checked in order and the first one that is found will be u
 			fmt.Println(fmt.Sprintf("failed to load systems: %v", err))
 		}
 
-		u, err := cmd.Flags().GetString("artifact")
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		artifact, err := local.LoadArtifact(u)
+		artifact, err := local.LoadArtifact(args[0])
 		if err != nil {
 			logrus.Errorf("failed to load artifact: %v", err)
 			return
@@ -63,8 +59,7 @@ Each location will be checked in order and the first one that is found will be u
 }
 
 func init() {
-	artifactCmd.AddCommand(runCmd)
-	runCmd.Flags().StringP("artifact", "a", "", "the artifact to run")
+	rootCmd.AddCommand(runCmd)
 	runCmd.Flags().StringP("id", "i", "", "the application id")
 	runCmd.Flags().StringP("storage", "s", "", "the storage system id, only applicable if the artifact is a concept artifact")
 	runCmd.Flags().BoolP("debug", "d", false, "print verbose debug information")
