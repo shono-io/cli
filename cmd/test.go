@@ -51,7 +51,7 @@ Please keep in mind only tests you have written yourself will be run.`,
 }
 
 func init() {
-	ArtifactCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(testCmd)
 	testCmd.Flags().StringP("artifact", "a", "", "the artifact to run")
 	testCmd.Flags().StringP("config", "c", "", "the path to the runtime configuration file")
 }

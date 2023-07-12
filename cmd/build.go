@@ -18,5 +18,5 @@ var buildCmd = &cobra.Command{
 }
 
 func init() {
-	ArtifactCmd.AddCommand(buildCmd)
+	rootCmd.AddCommand(buildCmd)
 }

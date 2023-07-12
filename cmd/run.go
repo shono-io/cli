@@ -59,7 +59,7 @@ Each location will be checked in order and the first one that is found will be u
 }
 
 func init() {
-	ArtifactCmd.AddCommand(runCmd)
+	rootCmd.AddCommand(runCmd)
 	runCmd.Flags().StringP("id", "i", "", "the application id")
 	runCmd.Flags().StringP("storage", "s", "", "the storage system id, only applicable if the artifact is a concept artifact")
 	runCmd.Flags().BoolP("debug", "d", false, "print verbose debug information")

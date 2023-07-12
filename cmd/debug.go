@@ -36,6 +36,6 @@ An in-memory storage will be used to store the data
 }
 
 func init() {
-	ArtifactCmd.AddCommand(debugCmd)
+	rootCmd.AddCommand(debugCmd)
 	debugCmd.Flags().BoolP("debug", "d", false, "print verbose debug information")
 }
